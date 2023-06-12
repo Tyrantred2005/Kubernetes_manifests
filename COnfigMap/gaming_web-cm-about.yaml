@@ -1,0 +1,40 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: apache-about 
+  labels:
+    app: gaming
+data:
+  about: Mensaje de prueba
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gaming-web
+  labels:
+    app: gaming
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+       app: gaming
+  template:
+    metadata:
+       labels:
+         app: gaming
+    spec:
+      containers:
+      - name: tomcat
+        image: tyrantred/devops_labs
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: config-apache
+          mountPath: /usr/local/apache2/htdocs
+      volumes:
+        - name: config-apache
+          configMap:
+            name: apache-about
+            items:
+            - key: about
+              path: about.html

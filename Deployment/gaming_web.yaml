@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gaming-web
+  labels:
+    app: gaming
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+       app: gaming
+  template:
+    metadata:
+       labels:
+         app: gaming
+    spec:
+      containers:
+      - name: tomcat
+        image: tyrantred/devops_labs
+#        command: ["sh", "-c", "apt update && sleep 10 && apt install curl -y"]
+        ports:
+        - containerPort: 80

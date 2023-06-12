@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-test
+  labels:
+    app: nginx
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:alpine
+        volumeMounts:
+        - name: config-nginx
+          mountPath: /etc/nginx/conf.d
+#        command: ['sh', '-c', 'cd /usr/local/apache2/bin && apachectl graceful']
+
+      volumes:
+        - name: config-nginx
+          configMap:
+            name: nginx-config 
+            items:
+            - key: nginx-default.conf 
+              path: default.conf 

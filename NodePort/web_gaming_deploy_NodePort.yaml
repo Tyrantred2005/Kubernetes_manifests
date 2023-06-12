@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gaming-web
+  labels:
+    app: gaming
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+       app: gaming
+  template:
+    metadata:
+       labels:
+         app: gaming
+    spec:
+      containers:
+      - name: gaming-web
+        image: tyrantred/gaming-web
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: gaming-web
+  labels:
+    app: gaming
+spec:
+  type: NodePort
+  selector:
+    app: gaming
+  ports:
+    - protocol: TCP
+      port: 8030
+      targetPort: 80
+      nodePort: 30030

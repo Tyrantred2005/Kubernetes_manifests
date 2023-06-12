@@ -1,0 +1,33 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-frontend-webs
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  ingressClassName: nginx-example
+  rules:
+  - http:
+      paths:
+      - path: /cake
+        pathType: Prefix
+        backend:
+          service:
+            name: cake-shop-web 
+            port:
+              number: 8010
+      - path: /icecream
+        pathType: Prefix
+        backend:
+          service:
+            name: ice-cream-web
+            port:
+              number: 8020
+      - path: /gaming
+        pathType: Prefix
+        backend:
+          service:
+            name: gaming-web
+            port:
+              number: 8030
+

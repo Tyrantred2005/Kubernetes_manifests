@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cake-shop-web
+  labels:
+    app: cake-shop
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+       app: cake-shop
+  template:
+    metadata:
+       labels:
+         app: cake-shop
+    spec:
+      containers:
+      - name: cake-shop-web
+        image: tyrantred/cake-shop-web
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: cake-shop-web
+  labels:
+    app: cake-shop
+spec:
+  type: ClusterIP 
+  selector:
+    app: cake-shop
+  ports:
+    - protocol: TCP
+      port: 8010
+      targetPort: 80
